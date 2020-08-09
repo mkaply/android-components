@@ -29,6 +29,7 @@ import mozilla.components.browser.state.action.DownloadAction
 import mozilla.components.browser.state.state.content.DownloadState
 import mozilla.components.browser.state.state.content.DownloadState.Status.DOWNLOADING
 import mozilla.components.browser.state.state.content.DownloadState.Status.FAILED
+import mozilla.components.browser.state.state.content.DownloadState.Status.INITIATED
 import mozilla.components.browser.state.store.BrowserStore
 import mozilla.components.concept.fetch.Client
 import mozilla.components.concept.fetch.MutableHeaders
@@ -75,6 +76,7 @@ import org.mockito.Mockito.doThrow
 import org.mockito.Mockito.spy
 import org.mockito.Mockito.times
 import org.mockito.Mockito.verify
+import org.mockito.Mockito.never
 import org.mockito.MockitoAnnotations.initMocks
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
@@ -581,6 +583,37 @@ class AbstractFetchDownloadServiceTest {
 
         // The additional notification is the summary one (the notification group).
         assertEquals(2, shadowNotificationService.size())
+    }
+
+    @Test
+    fun `onStartCommand must change status of INITIATED downloads to DOWNLOADING`() = runBlocking {
+        val download = DownloadState("https://example.com/file.txt", "file.txt", status = INITIATED)
+
+        val downloadIntent = Intent("ACTION_DOWNLOAD")
+        downloadIntent.putExtra(EXTRA_DOWNLOAD_ID, download.id)
+
+        doNothing().`when`(service).performDownload(any())
+
+        browserStore.dispatch(DownloadAction.AddDownloadAction(download)).joinBlocking()
+        service.onStartCommand(downloadIntent, 0, 0)
+        service.downloadJobs.values.first().job!!.joinBlocking()
+
+        verify(service).startDownloadJob(any())
+        assertEquals(DOWNLOADING, service.downloadJobs.values.first().status)
+    }
+
+    @Test
+    fun `onStartCommand must change the status only for INITIATED downloads`() = runBlocking {
+        val download = DownloadState("https://example.com/file.txt", "file.txt", status = FAILED)
+
+        val downloadIntent = Intent("ACTION_DOWNLOAD")
+        downloadIntent.putExtra(EXTRA_DOWNLOAD_ID, download.id)
+
+        browserStore.dispatch(DownloadAction.AddDownloadAction(download)).joinBlocking()
+        service.onStartCommand(downloadIntent, 0, 0)
+
+        verify(service, never()).startDownloadJob(any())
+        assertEquals(FAILED, service.downloadJobs.values.first().status)
     }
 
     @Test

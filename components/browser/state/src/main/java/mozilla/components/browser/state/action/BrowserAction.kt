@@ -574,7 +574,7 @@ sealed class DownloadAction : BrowserAction() {
     /**
      * Updates the [BrowserState] to track the provided [download] as added.
      */
-    data class AddDownloadAction(val download: DownloadState) : DownloadAction()
+    data class AddDownloadAction(val download: DownloadState, val restored: Boolean = false) : DownloadAction()
 
     /**
      * Updates the [BrowserState] to remove the download with the provided [downloadId].
@@ -590,6 +590,11 @@ sealed class DownloadAction : BrowserAction() {
      * Updates the provided [download] on the [BrowserState].
      */
     data class UpdateDownloadAction(val download: DownloadState) : DownloadAction()
+
+    /**
+     * Restore the [BrowserState.downloads] state from the storage.
+     */
+    object RestoreDownloadsState : DownloadAction()
 }
 
 /**
