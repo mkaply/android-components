@@ -101,7 +101,7 @@ abstract class AbstractFetchDownloadService : Service() {
     internal var compatForegroundNotificationId: Int = COMPAT_DEFAULT_FOREGROUND_ID
     private val logger = Logger("AbstractFetchDownloadService")
 
-    internal var downloadJobs = mutableMapOf<Long, DownloadJobState>()
+    internal var downloadJobs = mutableMapOf<String, DownloadJobState>()
 
     // TODO Move this to browser store and make immutable:
     // https://github.com/mozilla-mobile/android-components/issues/7050
@@ -157,7 +157,7 @@ abstract class AbstractFetchDownloadService : Service() {
             @Suppress("LongMethod")
             override fun onReceive(context: Context, intent: Intent?) {
                 val downloadId =
-                    intent?.extras?.getLong(DownloadNotification.EXTRA_DOWNLOAD_ID) ?: return
+                    intent?.extras?.getString(DownloadNotification.EXTRA_DOWNLOAD_ID) ?: return
                 val currentDownloadJobState = downloadJobs[downloadId] ?: return
 
                 when (intent.action) {
@@ -247,7 +247,7 @@ abstract class AbstractFetchDownloadService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        val download = intent?.getLongExtra(EXTRA_DOWNLOAD_ID, -1)?.let {
+        val download = intent?.getStringExtra(EXTRA_DOWNLOAD_ID)?.let {
             store.state.downloads[it]
         } ?: return START_REDELIVER_INTENT
 

@@ -47,7 +47,7 @@ class DownloadDaoTest {
 
     @Test
     fun testInsertingAndReadingDownloads() = runBlocking {
-        val download = insertMockDownload(1, "https://www.mozilla.org/file1.txt")
+        val download = insertMockDownload("1", "https://www.mozilla.org/file1.txt")
         val pagedList = getDownloadsPagedList()
 
         assertEquals(1, pagedList.size)
@@ -57,7 +57,7 @@ class DownloadDaoTest {
     @Test
     fun testRemoveAllDownloads() = runBlocking {
         for (index in 1..4) {
-            insertMockDownload(index.toLong(), "https://www.mozilla.org/file1.txt")
+            insertMockDownload(index.toString(), "https://www.mozilla.org/file1.txt")
         }
 
         var pagedList = getDownloadsPagedList()
@@ -73,7 +73,7 @@ class DownloadDaoTest {
     @Test
     fun testRemovingDownloads() = runBlocking {
         for (index in 1..2) {
-            insertMockDownload(index.toLong(), "https://www.mozilla.org/file1.txt")
+            insertMockDownload(index.toString(), "https://www.mozilla.org/file1.txt")
         }
 
         var pagedList = getDownloadsPagedList()
@@ -91,7 +91,7 @@ class DownloadDaoTest {
 
     @Test
     fun testUpdateDownload() = runBlocking {
-        insertMockDownload(1L, "https://www.mozilla.org/file1.txt")
+        insertMockDownload("1", "https://www.mozilla.org/file1.txt")
 
         var pagedList = getDownloadsPagedList()
 
@@ -115,7 +115,7 @@ class DownloadDaoTest {
                 .build()
     }
 
-    private suspend fun insertMockDownload(id: Long, url: String): DownloadState {
+    private suspend fun insertMockDownload(id: String, url: String): DownloadState {
         val download = DownloadState(
                 id = id,
                 url = url, contentType = "application/zip", contentLength = 5242880,

@@ -200,7 +200,7 @@ sealed class ContentAction : BrowserAction() {
     /**
      * Removes the [DownloadState] of the [ContentState] with the given [sessionId].
      */
-    data class ConsumeDownloadAction(val sessionId: String, val downloadId: Long) : ContentAction()
+    data class ConsumeDownloadAction(val sessionId: String, val downloadId: String) : ContentAction()
 
     /**
      * Updates the [HitResult] of the [ContentState] with the given [sessionId].
@@ -579,7 +579,7 @@ sealed class DownloadAction : BrowserAction() {
     /**
      * Updates the [BrowserState] to remove the download with the provided [downloadId].
      */
-    data class RemoveDownloadAction(val downloadId: Long) : DownloadAction()
+    data class RemoveDownloadAction(val downloadId: String) : DownloadAction()
 
     /**
      * Updates the [BrowserState] to remove all downloads.

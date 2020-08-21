@@ -48,7 +48,7 @@ class DownloadMiddlewareTest {
 
         val intentCaptor = argumentCaptor<Intent>()
         verify(applicationContext).startService(intentCaptor.capture())
-        assertEquals(download.id, intentCaptor.value.getLongExtra(EXTRA_DOWNLOAD_ID, -1))
+        assertEquals(download.id, intentCaptor.value.getStringExtra(EXTRA_DOWNLOAD_ID))
     }
 
     @Test

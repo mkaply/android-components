@@ -16,7 +16,7 @@ import mozilla.components.browser.state.state.content.DownloadState
 internal data class DownloadEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id: Long,
+    var id: String,
 
     @ColumnInfo(name = "url")
     var url: String,

@@ -7,7 +7,7 @@ package mozilla.components.browser.state.state.content
 import android.os.Environment
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
-import kotlin.random.Random
+import java.util.UUID
 
 /**
  * Value type that represents a download request.
@@ -40,7 +40,7 @@ data class DownloadState(
     val destinationDirectory: String = Environment.DIRECTORY_DOWNLOADS,
     val referrerUrl: String? = null,
     val skipConfirmation: Boolean = false,
-    val id: Long = Random.nextLong(),
+    val id: String = UUID.randomUUID().toString(),
     val sessionId: String? = null,
     val createdTime: Long = System.currentTimeMillis()
 ) : Parcelable {
