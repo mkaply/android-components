@@ -106,7 +106,7 @@ class DownloadsFeature(
      * Calls the tryAgain function of the corresponding [DownloadManager]
      */
     @Suppress("Unused")
-    fun tryAgain(id: Long) {
+    fun tryAgain(id: String) {
         downloadManager.tryAgain(id)
     }
 

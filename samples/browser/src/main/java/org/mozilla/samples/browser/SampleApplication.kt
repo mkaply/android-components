@@ -10,6 +10,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import mozilla.appservices.Megazord
 import mozilla.components.browser.session.Session
+import mozilla.components.browser.state.action.DownloadAction
 import mozilla.components.concept.fetch.Client
 import mozilla.components.feature.addons.update.GlobalAddonDependencyProvider
 import mozilla.components.lib.fetch.httpurlconnection.HttpURLConnectionClient
@@ -86,6 +87,7 @@ class SampleApplication : Application() {
                     components.supportedAddonsChecker.registerForChecks()
                 }
             )
+            components.store.dispatch(DownloadAction.RestoreDownloadsState)
         } catch (e: UnsupportedOperationException) {
             // Web extension support is only available for engine gecko
             Logger.error("Failed to initialize web extension support", e)

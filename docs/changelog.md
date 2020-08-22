@@ -42,6 +42,16 @@ permalink: /changelog/
 * **ui-widgets**
   * Added widget for showing a website in a list, such as in bookmarks or history. The `mozac_primary_text_color` and `mozac_caption_text_color` attributes should be set.
 
+* **feature-downloads**
+  * ⚠️ **This is a breaking change**: `AndroidDownloadManager.download` returns a `Strings`, `AndroidDownloadManager.tryAgain` requires a `Strings` `id` parameter.
+  * ⚠️ **This is a breaking change**: `ConsumeDownloadAction` requires a `Strings` `id` parameter.
+  * ⚠️ **This is a breaking change**: `DownloadManager#onDownloadStopped` requires a `Strings` `(DownloadState, Long, Status) -> Unit`.
+  * ⚠️ **This is a breaking change**: `DownloadsUseCases.invoke` requires an `Strings` `downloadId` parameter.
+  * ⚠️ **This is a breaking change**: `DownloadState.id` has changed its type from `Long` to `String`.
+  * ⚠️ **This is a breaking change**: `BrowserState.downloads` has changed it's type from `Map<Long, DownloadState>` to `Map<String, DownloadState>`.
+  * 🆕 Added support for persisting/restoring downloads see issue [#7762](https://github.com/mozilla-mobile/android-components/issues/7762).
+  * 🆕 Added `DownloadStorage` for querying stored download metadata.
+
 # 55.0.0
 
 * [Commits](https://github.com/mozilla-mobile/android-components/compare/v54.0.0...v55.0.0)

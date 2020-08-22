@@ -1,0 +1,37 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+package mozilla.components.support.ktx.kotlinx.coroutines
+
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+/**
+ *
+ * Returns a function that limits the executions of the [block] function, until the [skipTime] passes,
+ * any calls before [skipTime] passes will be ignored.
+ *
+ * Credit to Terenfear https://gist.github.com/Terenfear/a84863be501d3399889455f391eeefe5
+ *
+ * @param skipTime the time to wait until the next call to [block] be processed.
+ * @param coroutineScope the coroutine scope where [block] will executed.
+ * @param block function to be execute.
+ */
+fun <T> throttle(
+    skipTime: Long = 300L,
+    coroutineScope: CoroutineScope,
+    block: (T) -> Unit
+): (T) -> Unit {
+    var throttleJob: Job? = null
+    return { param: T ->
+        if (throttleJob?.isCompleted != false) {
+            throttleJob = coroutineScope.launch {
+                block(param)
+                delay(skipTime)
+            }
+        }
+    }
+}
