@@ -30,7 +30,7 @@ class AssetsSearchEngineProviderTest {
         val engines = searchEngineProvider.loadSearchEngines(testContext)
         val searchEngines = engines.list
 
-        assertEquals(5, searchEngines.size)
+        assertEquals(6, searchEngines.size)
     }
 
     @Test
@@ -52,7 +52,7 @@ class AssetsSearchEngineProviderTest {
         val engines = searchEngineProvider.loadSearchEngines(testContext)
         val searchEngines = engines.list
 
-        assertEquals(3, searchEngines.size)
+        assertEquals(4, searchEngines.size)
     }
 
     @Test
@@ -100,7 +100,7 @@ class AssetsSearchEngineProviderTest {
             val searchEngines = engines.list
 
             println("searchEngines = $searchEngines")
-            assertEquals(5, searchEngines.size)
+            assertEquals(6, searchEngines.size)
             assertContainsNotSearchEngine("yandex-en", searchEngines)
         }
         // With region
@@ -210,7 +210,7 @@ class AssetsSearchEngineProviderTest {
             val engines = searchEngineProvider.loadSearchEngines(testContext)
             val searchEngines = engines.list
 
-            assertEquals(5, searchEngines.size)
+            assertEquals(6, searchEngines.size)
             assertContainsNotSearchEngine("duckduckgo", searchEngines)
         }
 
@@ -222,7 +222,7 @@ class AssetsSearchEngineProviderTest {
             val engines = provider.loadSearchEngines(testContext)
             val searchEngines = engines.list
 
-            assertEquals(6, searchEngines.size)
+            assertEquals(7, searchEngines.size)
             assertContainsSearchEngine("duckduckgo", searchEngines)
         }
     }
@@ -240,7 +240,7 @@ class AssetsSearchEngineProviderTest {
             val engines = searchEngineProvider.loadSearchEngines(testContext)
             val searchEngines = engines.list
 
-            assertEquals(5, searchEngines.size)
+            assertEquals(6, searchEngines.size)
             assertContainsNotSearchEngine("google", searchEngines)
         }
 
@@ -257,7 +257,7 @@ class AssetsSearchEngineProviderTest {
             val engines = provider.loadSearchEngines(testContext)
             val searchEngines = engines.list
 
-            assertEquals(6, searchEngines.size)
+            assertEquals(7, searchEngines.size)
             assertContainsSearchEngine("google", searchEngines)
         }
     }
